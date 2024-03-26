@@ -1,4 +1,4 @@
-package com.eukolos.jetbrainsexposedorm.model;
+package com.eukolos.jetbrainsexposedorm.configuration;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
