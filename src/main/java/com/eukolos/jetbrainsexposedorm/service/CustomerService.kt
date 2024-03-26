@@ -30,7 +30,6 @@ open class CustomerService {
 
         return customerId.value
     }
-
     @Transactional
     open fun getCustomerById(id: Int): CustomerDto? {
         return Customers.selectAll().where { Customers.id eq id }.map {
@@ -41,7 +40,6 @@ open class CustomerService {
             )
         }.firstOrNull()
     }
-
     @Transactional
     open fun getCustomerWithOrders(id: Int): CustomerDto? {
         return Customers.selectAll().where { Customers.id eq id }.map {
@@ -54,7 +52,6 @@ open class CustomerService {
             )
         }.firstOrNull()
     }
-
     @Transactional
     open fun getCustomers(): List<CustomerDto> {
         return Customers.selectAll().map {
@@ -65,7 +62,6 @@ open class CustomerService {
             )
         }
     }
-
     @Transactional
     open fun getCustomersWithOrders(): List<CustomerDto> {
         return Customers.selectAll().map {
@@ -78,13 +74,11 @@ open class CustomerService {
             )
         }
     }
-
     @Transactional
     open fun deleteCustomer(id: Int) {
         Customers.deleteWhere { Customers.id eq id}
         Orders.deleteWhere { customerId eq id }
     }
-
     @Transactional
     open fun updateCustomer(id: Int, customerDto: CustomerDto) {
         Customers.update({Customers.id eq id}) {
@@ -92,7 +86,4 @@ open class CustomerService {
             it[city] = customerDto.city
         }
     }
-
-
-
 }
