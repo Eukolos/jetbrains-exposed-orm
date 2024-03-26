@@ -5,6 +5,8 @@ import com.eukolos.jetbrainsexposedorm.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
@@ -28,6 +30,27 @@ public class CustomerController {
     @GetMapping("/orders/{id}")
     public CustomerDto getCustomerOrders(@PathVariable Integer id) {
         return customerService.getCustomerWithOrders(id);
+    }
+
+    @GetMapping
+    public List<CustomerDto> getCustomers() {
+        return customerService.getCustomers();
+    }
+
+    @GetMapping("/with-orders")
+    public List<CustomerDto> getCustomersWithOrders() {
+        return customerService.getCustomersWithOrders();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomer(@PathVariable Integer id) {
+        customerService.deleteCustomer(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateCustomer(@PathVariable Integer id, @RequestBody CustomerDto customerDto) {
+        customerService.updateCustomer(id, customerDto);
     }
 
 }

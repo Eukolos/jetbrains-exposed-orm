@@ -4,6 +4,7 @@ import com.eukolos.jetbrainsexposedorm.dto.CustomerDto
 import com.eukolos.jetbrainsexposedorm.model.Customers
 import com.eukolos.jetbrainsexposedorm.model.Orders
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -53,6 +54,45 @@ open class CustomerService {
             )
         }.firstOrNull()
     }
+
+    @Transactional
+    open fun getCustomers(): List<CustomerDto> {
+        return Customers.selectAll().map {
+            CustomerDto(
+                    it[Customers.name],
+                    it[Customers.city],
+                    ArrayList()
+            )
+        }
+    }
+
+    @Transactional
+    open fun getCustomersWithOrders(): List<CustomerDto> {
+        return Customers.selectAll().map {
+            CustomerDto(
+                    it[Customers.name],
+                    it[Customers.city],
+                    Orders.selectAll().where { Orders.customerId eq it[Customers.id] }.map {
+                        it[Orders.sku]
+                    }
+            )
+        }
+    }
+
+    @Transactional
+    open fun deleteCustomer(id: Int) {
+        Customers.deleteWhere { Customers.id eq id}
+        Orders.deleteWhere { customerId eq id }
+    }
+
+    @Transactional
+    open fun updateCustomer(id: Int, customerDto: CustomerDto) {
+        Customers.update({Customers.id eq id}) {
+            it[name] = customerDto.name
+            it[city] = customerDto.city
+        }
+    }
+
 
 
 }
