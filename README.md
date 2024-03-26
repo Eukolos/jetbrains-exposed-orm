@@ -39,6 +39,9 @@
 * Docker
 * GraalVM CE Java 17-22.3.0
 
+### Summary
+
+This project is a simple example of how to use the Jetbrains Exposed ORM with Kotlin and Java. The project is a simple REST API that allows you to create, read, update, and delete customers.
 
 
 <details>
